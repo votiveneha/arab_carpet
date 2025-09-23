@@ -1,0 +1,13 @@
+div#example_wrapper .d-md-flex {
+    margin: 0 !important;
+}
+
+a.navbar-brand.navbar-logo-add {
+    width: 40%;
+    margin-left: 0px !important;
+    margin-right: 0px !important; 
+}
+
+form.search-bar.d-flex.flex-wrap.justify-content-center.gap-2.mt-4 {
+    max-width: none;
+}

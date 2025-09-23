@@ -1,0 +1,482 @@
+.product-details-add .container {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    display: flex;
+    gap: 40px;
+    padding: 30px;
+    border-radius: 15px;
+    font-family: "Poppins";
+}
+
+.product-details-add .left,
+.center,
+.right {
+    width: 100%;
+}
+
+.product-details-add .left img.main-img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product-details-add .thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.product-details-add .thumbnails img {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    padding: 2px;
+}
+
+
+.product-details-add .thumbnails img.active {
+    border-color: green;
+}
+
+.product-details-add .product-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-details-add .tag {
+    background: #d4edda;
+    color: #155724;
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.product-details-add .rating {
+    color: orange;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.product-details-add .description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.product-details-add .features p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.product-details-add .spec-link {
+    font-size: 14px;
+    color: #ea3731;
+    text-decoration: none;
+}
+.product-details-add .price-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 5%);
+    display: none;
+}
+.product-details-add .price {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.product-details-add .in-stock {
+    color: green;
+    background: #e3f9e5;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.product-details-add .info p {
+    font-size: 14px;
+    margin: 6px 0;
+}
+
+.product-details-add .options,
+.colors {
+    margin-top: 15px;
+}
+
+.product-details-add .options button,
+.colors span {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-right: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.product-details-add .colors span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.product-details-add .colors .orange {
+    background: orange;
+}
+.colors .yellow {
+    background: gold;
+}
+.colors .blue {
+    background: royalblue;
+}
+
+.product-details-add .qty {
+    margin: 20px 0;
+    background-color: #ebebeb;
+    border: 1px solid #ebebeb;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.product-details-add .qty button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+.product-details-add .add-cart {
+    color: white;
+    background: #ea3731;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 65%;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0px;
+}
+.product-details-add .add-cart:hover {
+    background: #004858;
+}
+.product-details-add .compare {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #555;
+    padding-bottom: 15px;
+}
+
+.product-details-add .tags span {
+    display: inline-block;
+    background: #eee;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: 5px 5px 0 0;
+}
+
+.product-details-add .social {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.product-details-add .social button {
+    background: none;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.product-details-add .social .pin {
+    color: red;
+}
+
+.product-details-add button.like-btn {
+    background: #4267b2;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.product-details-add button.tweet-btn {
+    background: #1b95e0;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.product-details-add button.pin-btn {
+    background: #e63939;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.product-details-add span.view-rating-btn {
+    background: #fff;
+    color: #737373;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    padding: 0px 10px;
+    border-radius: 3px;
+}
+.right-side-detail {
+    display: flex;
+    gap: 0px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 5%);
+    padding: 25px;
+    padding-bottom: 0px;
+    border-radius: 15px;
+    height: 100%;
+}
+.right-side-detail .right-col {
+    width: 45%;
+}
+a.btn.whatsapp {
+    background-color: #004858;
+    color: #fff;
+    border-radius: 4px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    margin-top: 15px;
+}
+.add-to-card-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.service-list-add {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+h2.part-name {
+    font-weight: 600;
+}
+.service-list-add i {
+    font-size: 24px;
+    color: #ea3731;
+}
+.product-details-add button.active {
+    background-color: #004858;
+    color: #fff;
+    border: solid 1px #004858;
+}
+
+.tabs-used-list {
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 5%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+.tabs-used-list ul.nav.nav-tabs a.nav-link.active {
+    color: #ea3731;
+}
+
+.tabs-used-list ul.nav.nav-tabs a.nav-link {
+    color: #000;
+}
+
+.tabs-used-list div#tab-content p {
+    font-size: 14px;
+    font-family: "Poppins";
+}
+
+.tabs-used-list div#tab-content h4 {
+    padding: 8px 0px;
+}
+.produxt-add-right {
+    width: 100%;
+    height: 390px;
+}
+.related-products {
+    margin-top: 65px;
+}
+.related-products .container {
+    display: block;
+    box-shadow: none;
+    padding-top: 0px;
+}
+.related-products .whts_seller button {
+    padding: 9px;
+}
+
+.related-products h4.related-text {
+    padding-bottom: 15px;
+}
+
+.product-details-add .colors p {
+    margin-bottom: 5px;
+}
+
+.free-shipping-add .feature-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 5%);
+}
+
+.free-shipping-add .feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.free-shipping-add .feature:last-child {
+    margin-bottom: 0;
+}
+
+.free-shipping-add .feature img {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+    filter: brightness(0) saturate(100%) invert(30%) sepia(80%) saturate(1000%) hue-rotate(200deg) brightness(95%) contrast(90%);
+}
+
+.free-shipping-add .feature .text h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.free-shipping-add .feature .text p {
+    margin: 2px 0 0 0;
+    color: #666;
+    font-size: 14px;
+}
+.free-shipping-add {
+    margin-top: 0px;
+}
+
+.free-shipping-add .feature-box svg {
+    width: 45px;
+}
+
+.free-shipping-add .feature-box svg {
+    width: 40px;
+    fill: rgb(234 55 49);
+}
+
+div#carouselExampleControls i.bi.bi-arrow-left-circle {
+    color: #e53935;
+    font-size: 35px;
+}
+
+div#carouselExampleControls i.bi.bi-arrow-right-circle {
+    color: #e53935;
+    font-size: 35px;
+}
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    display: none;
+}
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+    display: none;
+}
+
+div#carouselExampleControls button.carousel-control-prev {
+    position: absolute;
+    left: 91%;
+    bottom: 100%;
+    margin-top: -68px;
+    width: 50px;
+}
+
+div#carouselExampleControls button.carousel-control-next {
+    position: absolute;
+    left: 95%;
+    bottom: 100%;
+    margin-top: -68px;
+    width: 50px;
+}
+
+.part-info .buttons a.btn.view-shop {
+    background-color: #ea3731;
+    color: #fff;
+    border-radius: 4px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+a.btn.view-shop {
+    background-color: #ea3731;
+    color: #fff;
+    border-radius: 4px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+}
+.part-info p {
+    margin-bottom: 8px;
+}
+.part-info .buttons a.btn.whatsapp {
+    background-color: #004858;
+    color: #fff;
+    border-radius: 4px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.part-info .buttons {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.sub-range span {
+    font-size: 14px;
+    display: flex;
+    line-height: 1.6;
+}
+
+.sub-range {
+    padding-bottom: 8px;
+}
+.right-side-detail .left img {
+    width: 100%;
+    height: 335px;
+    object-fit: cover;
+}
+.part-info {
+    padding-left: 40px;
+}
+.free-shipping-add .feature-box ul.service-list {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.free-shipping-add .feature-box ul.service-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: "Poppins";
+}
+.free-shipping-add .feature-box ul.service-list i {
+    font-size: 35px;
+    color: rgb(234 55 49);
+}
+.sub-range p {
+    margin-bottom: 0px;
+}
+
+.grid_listing .product-listing-m .v_seller button {
+    padding: 9px;
+}
