@@ -118,4 +118,13 @@ return [
     'longitude' => 'طول بلد',
     'THIS_FITS' => 'یہ فٹ ہوتا ہے:',
     'ALSO_THIS_FITS' => 'یہ بھی فٹ ہوتا ہے:',
+    'shop_listing' => 'دکان کی فہرست',
+    'search_shop_name' => 'دکان کا نام تلاش کریں۔',
+    'select_countries' => 'ملک منتخب کریں۔',
+    'select_cities' => 'شہر منتخب کریں۔',
+    'clear' => 'صاف',
+    'you_are_here' => 'آپ یہاں ہیں۔',
+    'results' => 'نتائج',
+    'address' => 'پتہ',
+    'all_car_type' => 'تمام قسم کی کار',
 ];

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Session;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::any('/productList', [HomeController::class, 'productList'])->name('productList');
+Route::any('/SellerTagList', [HomeController::class, 'sellerTagList'])->name('sellerTagList');
+Route::any('/BuyerSendRequest', [HomeController::class, 'BuyerSendRequest'])->name('BuyerSendRequest');
 Route::get('/productDetail/{id}', [HomeController::class, 'productDetail'])->name('productDetail');
 
 Route::get('/shop/{city}/{shop}', [HomeController::class, 'shopDetail'])->name('shopDetail');
@@ -79,7 +81,7 @@ Route::middleware(['seller'])->group(function () {
     Route::get('/seller/productList', [SellerDashboardController::class, 'productList'])->name('seller.productList');
     Route::any('/seller/addProduct/{id?}', [SellerDashboardController::class, 'addProduct'])->name('seller.addProduct');
     Route::any('/seller/updateMyProduct/{id}', [SellerDashboardController::class, 'updateMyProduct'])->name('seller.updateMyProduct');
-    
+
     Route::post('/seller/deleteProduct', [SellerDashboardController::class, 'deleteProduct'])->name('seller.deleteProduct');
     Route::post('/seller/bulkDeleteproduct', [SellerDashboardController::class, 'bulkDeleteproduct'])->name('seller.bulkDeleteproduct');
 
@@ -103,7 +105,7 @@ Route::middleware(['seller'])->group(function () {
     //show all the product to seller then can add to his list
     Route::get('/seller/getAllProduct', [SellerDashboardController::class, 'getAllProduct'])->name('seller.getAllProduct');
     Route::post('/seller/getCatalogueProduct', [SellerDashboardController::class, 'getCatalogueProduct'])->name('seller.getCatalogueProduct');
-    
+
     Route::post('/seller/addSellerProduct', [SellerDashboardController::class, 'addSellerProduct']);
     Route::post('/seller/removeSellerProduct', [SellerDashboardController::class, 'removeSellerProduct']);
     Route::post('/seller/updateSellerProductField', [SellerDashboardController::class, 'updateSellerProductField']);
@@ -111,13 +113,13 @@ Route::middleware(['seller'])->group(function () {
 
     Route::post('/seller/copyProduct', [SellerDashboardController::class, 'copyProduct']);
 
-    //Seller Request start 
+    //Seller Request start
     Route::any('/seller/addSellerRequest', [SellerDashboardController::class, 'addSellerRequest'])->name('seller.addSellerRequest');
     Route::get('/seller/myRequest', [SellerDashboardController::class, 'myRequest'])->name('seller.myRequest');
 
 });
 
-// we routes end 
+// we routes end
 
 Route::get('/clear-views', function () {
     Artisan::call('view:clear');
@@ -138,6 +140,14 @@ Route::post('/admin/getModel', [AdminController::class, 'getModel']);
 Route::post('/admin/getSubcategory', [AdminController::class, 'getSubcategory']);
 Route::post('/admin/getgeneration', [AdminController::class, 'getgeneration']);
 Route::post('/admin/getPartType', [AdminController::class, 'getPartType']);
+
+// Get multiple
+Route::post('/admin/getBrandMultiple', [AdminController::class, 'getBrandMultiple']);
+Route::post('/admin/getModelMultiple', [AdminController::class, 'getModelMultiple']);
+Route::post('/admin/getSubcategoryMultiple', [AdminController::class, 'getSubcategoryMultiple']);
+Route::post('/admin/getBrandModelByParent', [AdminController::class, 'getBrandModelByParent']);
+
+
 
 Route::get('/admin/modelImport', [MasterController::class, 'modelImport']);
 Route::post('/admin/import', [MasterController::class, 'import'])->name('admin.import');
@@ -194,7 +204,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::get('/admin/viewPolicy/{lang_code}/{id}', [MasterController::class, 'viewPolicy'])->name('admin.viewPolicy');
     Route::post('/admin/deletePolicy', [MasterController::class, 'deletePolicy'])->name('admin.deletePolicy');
     Route::post('/admin/policy/bulk-delete', [MasterController::class, 'bulkDeletePolicy'])->name('admin.bulkDeletePolicy');
-    
+
 
     Route::get('/admin/CategoryList', [MasterController::class, 'CategoryList'])->name('admin.CategoryList');
     Route::any('/admin/addCategory/{id?}', [MasterController::class, 'addCategory'])->name('admin.addCategory');
@@ -206,7 +216,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::any('/admin/addSubCategory/{id?}', [MasterController::class, 'addSubCategory'])->name('admin.addSubCategory');
     Route::post('/admin/updateSubCategoryStatus', [MasterController::class, 'updateSubCategoryStatus']);
     Route::post('/admin/bulkDeleteSubCategory', [MasterController::class, 'bulkDeleteSubCategory'])->name('admin.bulkDeleteSubCategory');
-   
+
     Route::any('/admin/addAdminProduct/{id?}', [ProductManagementController::class, 'addAdminProduct'])->name('admin.addAdminProduct');
     Route::get('/admin/adminProductList', [ProductManagementController::class, 'adminProductList'])->name('admin.adminProductList');
     Route::post('/admin/updateProductStatus', [ProductManagementController::class, 'updateProductStatus'])->name('admin.updateProductStatus');
@@ -222,7 +232,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
 
     Route::get('/admin/InterchangeProduct', [ProductManagementController::class, 'InterchangeProduct'])->name('admin.InterchangeProduct');
     Route::post('/admin/get-products-by-combinations', [ProductManagementController::class, 'getIProducts'])->name('admin.get.products.by.combinations');
-    
+
     Route::post('/admin/addInterchangeProduct', [ProductManagementController::class, 'addInterchangeProduct'])->name('admin.addInterchangeProduct');
     Route::post('/admin/delete_inter', [ProductManagementController::class, 'deleteInter']);
     Route::get('/admin/InterchangeProductList', [ProductManagementController::class, 'InterchangeProductList'])->name('admin.InterchangeProductList');
@@ -234,7 +244,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     //add part to all vehicle
     Route::any('/admin/addPartCatalogue', [ProductManagementController::class, 'addPartCatalogue'])->name('admin.addPartCatalogue');
 
-    //Location master start from here    
+    //Location master start from here
     Route::get('/admin/countryList', [MasterController::class, 'countryList'])->name('admin.countryList');
     Route::any('/admin/addCountry/{id?}', [MasterController::class, 'addCountry'])->name('admin.addCountry');
     Route::post('/admin/updateCountryStatus', [MasterController::class, 'updateCountryStatus']);
@@ -250,9 +260,10 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::get('/admin/parentList', [ParentController::class, 'parentList'])->name('admin.parentList');
     Route::get('/admin/showParent/{id}', [ParentController::class, 'showParent'])->name('admin.showParent');
     Route::get('/admin/deletemBrand/{id}', [ParentController::class, 'deletemBrand'])->name('admin.deletemBrand');
-    
+
     //seller request
     Route::get('/admin/allRequest', [UserManagementController::class, 'allRequest'])->name('admin.allRequest');
+    Route::get('/admin/buyer-request', [UserManagementController::class, 'buyerRequestList'])->name('admin.buyerRequest');
     Route::post('/admin/updateRequestStatus', [UserManagementController::class, 'updateRequestStatus'])->name('admin.updateRequestStatus');
 
     Route::get('/admin/sellerDigitalCard/{id}', [UserManagementController::class, 'sellerDigitalCard'])->name('admin.sellerDigitalCard');

@@ -21,45 +21,36 @@
                 <div class="card">
                   <div class="card-body">
 
-                    <h4 class="card-title">Seller Request Management</h4>
-
-
+                    <h4 class="card-title">Buyer Request Management</h4>
                       <div class="table-responsive">
                         <table class="table table-striped" id="example">
                           <thead>
                             <tr>
                               <th> Sr No </th>
-                              <th> Request No </th>
-                              <th> Seller </th>
+                              <th> Origin </th>
+                              <th> Seller name </th>
                               <th> Make </th>
                               <th> Model</th>
-                              <th> Generation</th>
                               <th> Part Type</th>
                               <th> Part</th>
-                              <th> Type</th>
-                              <th> Status</th>
+                              <th> Year</th>
+                              <th> Date</th>
                             </tr>
                           </thead>
                           <tbody>
-                            @if($sellreques)
+                            @if($buyerRequest)
                             @php $i=1; @endphp
-                            @foreach($sellreques as $list)
+                            @foreach($buyerRequest as $list)
                             <tr>
                               <td>{{$i}}</td>
-                              <td>#{{$list->request_id}}</td>
-                              <td> {{$list->user_name}}</td>
-                              <td> {{$list->make==''?'--':$list->make}} </td>
-                              <td> {{$list->model==''?'--':$list->model}} </td>
-                              <td> {{$list->generation==''?'--':$list->generation}} </td>
-                              <td> {{$list->category==''?'--':$list->category}} </td>
-                              <td> {{$list->subcategory==''?'--':$list->subcategory}} </td>
-                              <td> {{$list->is_car==1?__('messages.tbl_product'):__('messages.tbl_part')}} </td>
-                              <td><select class="request_status form-select form-select-sm" user="{{$list->id}}">
-                                  <option value="0" {{$list->request_status==0?'selected':''}}>{{__('messages.pending')}}</option>
-                                  <option value="1" {{$list->request_status==1?'selected':''}}>{{__('messages.accept')}}</option>
-                                  <option value="2" {{$list->request_status==2?'selected':''}}>{{__('messages.reject')}}</option>
-                                </select>
-                              </td>
+                              <td>{{$list->parent_cate_name}}</td>
+                              <td>{{$list->first_name}} {{$list->last_name}}</td>
+                              <td> {{$list->brand_name}} </td>
+                              <td> {{$list->model_name}} </td>
+                              <td> {{$list->category_name}} </td>
+                              <td> {{$list->subcategory_name}} </td>
+                              <td> {{$list->year}} </td>
+                              <td> {{$list->created_at}} </td>
                             </tr>
                             @php $i++; @endphp
                             @endforeach

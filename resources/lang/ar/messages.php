@@ -117,4 +117,13 @@ return [
     'longitude' => 'خط الطول',
     'THIS_FITS' => 'يناسب هذا:',
     'ALSO_THIS_FITS' => 'كما يناسب هذا:',
+    'shop_listing' => 'قائمة المتجر',
+    'search_shop_name' => 'بحث عن اسم المحل',
+    'select_countries' => 'اختر البلد',
+    'select_cities' => 'اختر المدن',
+    'clear' => 'واضح',
+    'you_are_here' => 'أنت هنا',
+    'results' => 'نتائج',
+    'address' => 'عنوان',
+    'all_car_type' => 'جميع أنواع السيارات',
 ];

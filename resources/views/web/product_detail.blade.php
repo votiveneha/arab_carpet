@@ -115,9 +115,10 @@
                                             <span>{{ $product->subcategory_name }}</span>
                                         </div>
                                         <div class="pr_amd">
-                                        @if ($product->product_price > 0) {{ $product->product_price }}
-                                            <span>{{ $product->currency }}</span>
-                                        @endif
+                                            @if ($product->product_price > 0)
+                                                {{ $product->product_price }}
+                                                <span>{{ $product->currency }}</span>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -219,101 +220,27 @@
                                     class="brand">{{ $product->brand_name }}</span> <span
                                     class="part">{{ $product->model_name }}</span></p> --}}
 
+                            {{--<div class="fit_txt">
+                                {{ $product->brand_name }} {{ $product->model_name }}
+                                <span class="year">( {{ $product->start_year }} - {{ $product->end_year }})
+                                </span>
+                            </div>--}}
+                            @if ($similarProducts->isNotEmpty())
+                                @foreach ($similarProducts as $product)
+                                    <div class="fit_txt">
+                                        {{ $product->brand_name }} {{ $product->model_name }}
+                                        <span class="year">( {{ $product->start_year }} - {{ $product->end_year }})
+                                        </span>
+                                    </div>
+                                @endforeach
+                            @else    
                             <div class="fit_txt">
                                 {{ $product->brand_name }} {{ $product->model_name }}
                                 <span class="year">( {{ $product->start_year }} - {{ $product->end_year }})
                                 </span>
                             </div>
+                            @endif
                         </div>
-
-
-                        @if ($similarProducts->isNotEmpty())
-                            <div class="fits mt-3 shop-product-list-right" style="border-bottom: 1px solid #eee;">
-                                <div class="product-listing shop-mini-product-add">
-                                    <h4 class="title" style="text-align: left;"> {{ __('messages.ALSO_THIS_FITS') }} </h4>
-                                    @foreach ($similarProducts as $product)
-                                        <div class="listing-item"
-                                            onclick="redirectToDetail('{{ route('productDetail', $product->id) }}')"
-                                            style="cursor:pointer;">
-                                            <div class="new-ven-add">
-                                                <div class="vendor-info">
-                                                    <div class="vendor-name">
-                                                        <a href="{{ route('productDetail', $product->id) }}"
-                                                            class="track-product-click"
-                                                            data-product-id="{{ $product->id }}"
-                                                            data-seller-id="{{ $product->seller_id }}"
-                                                            data-admin-product-id="{{ $product->admin_product_id }}">
-                                                            {{ $product->brand_name }} {{ $product->model_name }}
-                                                            <span>{{ $product->subcat_name }}</span>
-                                                        </a>
-                                                    </div>
-                                                    <span class="name-part-add">{{ $product->category_name }}</span>
-                                                    <div class="vendor-icons">
-                                                        <div class="vendor-city">{{ $user->city_name }}
-                                                            @if ($product->product_image != '')
-                                                                <a href="{{ asset('/public/uploads/product_image/' . $product->product_image) }}"
-                                                                    target="_blank">
-                                                                    <i class="bi bi-camera-fill"></i>
-                                                                </a>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="product-details">
-                                                <p>{{ $product->product_note }}</p>
-                                            </div>
-                                            <div class="product-status">
-                                                {{-- {{ $product->product_type == 1 ? 'EXCELLENT' : ($product->product_type == 2 ? 'GOOD' : 'NOT WORKING') }} --}}
-                                            </div>
-                                            <div class="contact-options">
-                                                <div class="product-price">
-                                                    @if ($product->product_price > 0)
-                                                        {{ $product->product_price }} {{ $product->currency }}
-                                                    @endif
-                                                </div>
-                                                <div class="icons-part-add">
-                                                    {{-- <a href="https://wa.me/{{ $user->mobile }}?text={{ urlencode('Hello, I found your part on ARABCARPART: ' . $product->brand_name . '> ' . $product->model_name . '> ' . $product->category_name . '> ' . $product->subcat_name . ' Stock #' . $product->stock_number . ' Is it still available?') }}"
-                                                        target="_blank">
-                                                        <button><i class="bi bi-whatsapp"></i></button>
-                                                    </a> --}}
-                                                    <button class="s_icon"
-                                                        onclick="openWhatsApp(
-                                                            '{{ $product->mobile }}',
-                                                            '{{ $product->id }}',
-                                                            '{{ $product->brand_name }}',
-                                                            '{{ $product->model_name }}',
-                                                            '{{ $product->category_name }}',
-                                                            '{{ $product->subcategory_name }}',
-                                                            '{{ $product->stock_number }}',event)">
-                                                        <i class="bi bi-whatsapp"></i></button>
-                                                    <a class="s_icon" href="tel:{{ $user->mobile }}">
-                                                        <button><i class="bi bi-telephone"></i></button>
-                                                    </a>
-                                                    <button class="s_icon"
-                                                        onclick="openMap('{{ $product->user_lat }}','{{ $product->user_long }}', event)">
-                                                        <i class="bi bi-geo-alt"></i>
-                                                    </button>
-                                                    {{-- <button><i class="bi bi-geo-alt"></i></button> --}}
-
-                                                    <a
-                                                        href="{{ route('shopDetail', ['city' => $user->city_name, 'shop' => $product->shop_name_en]) }}">
-                                                        <div style="color:#000000" class="vendor-name"">
-                                                            {{ $product->shop_name }}
-                                                        </div>
-                                                    </a>
-                                                    <div class="vendor-city city-add-text">
-                                                        {{ $user->city_name }}
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
 
                     </div>
                 </div>
@@ -373,41 +300,41 @@
     </script>
     <script>
         /*
-                                                        document.addEventListener("DOMContentLoaded", function () {
-                                                            if (navigator.geolocation) {
-                                                                navigator.geolocation.getCurrentPosition(
-                                                                    function (position) {
-                                                                        const lat = position.coords.latitude;
-                                                                        const lng = position.coords.longitude;
-                                                                        console.log("Detected location:", lat, lng);
+                                                                document.addEventListener("DOMContentLoaded", function () {
+                                                                    if (navigator.geolocation) {
+                                                                        navigator.geolocation.getCurrentPosition(
+                                                                            function (position) {
+                                                                                const lat = position.coords.latitude;
+                                                                                const lng = position.coords.longitude;
+                                                                                console.log("Detected location:", lat, lng);
 
-                                                                        document.getElementById("user_latitude").value = lat;
-                                                                        document.getElementById("user_longitude").value = lng;
-                                                                    },
-                                                                    function (error) {
-                                                                        console.warn("Geolocation error:", error.message);
+                                                                                document.getElementById("user_latitude").value = lat;
+                                                                                document.getElementById("user_longitude").value = lng;
+                                                                            },
+                                                                            function (error) {
+                                                                                console.warn("Geolocation error:", error.message);
 
-                                                                        // Show user-friendly alert
-                                                                        switch (error.code) {
-                                                                            case error.PERMISSION_DENIED:
-                                                                                alert("Please allow location access to use this feature.");
-                                                                                break;
-                                                                            case error.POSITION_UNAVAILABLE:
-                                                                                alert("Location information is unavailable.");
-                                                                                break;
-                                                                            case error.TIMEOUT:
-                                                                                alert("Location request timed out.");
-                                                                                break;
-                                                                            default:
-                                                                                alert("An unknown error occurred while getting your location.");
-                                                                        }
+                                                                                // Show user-friendly alert
+                                                                                switch (error.code) {
+                                                                                    case error.PERMISSION_DENIED:
+                                                                                        alert("Please allow location access to use this feature.");
+                                                                                        break;
+                                                                                    case error.POSITION_UNAVAILABLE:
+                                                                                        alert("Location information is unavailable.");
+                                                                                        break;
+                                                                                    case error.TIMEOUT:
+                                                                                        alert("Location request timed out.");
+                                                                                        break;
+                                                                                    default:
+                                                                                        alert("An unknown error occurred while getting your location.");
+                                                                                }
+                                                                            }
+                                                                        );
+                                                                    } else {
+                                                                        alert("Geolocation is not supported by this browser.");
                                                                     }
-                                                                );
-                                                            } else {
-                                                                alert("Geolocation is not supported by this browser.");
-                                                            }
-                                                        });
-                                                        */
+                                                                });
+                                                                */
         $(document).ready(function() {
             $(document).on('change', '#brand', function() {
 

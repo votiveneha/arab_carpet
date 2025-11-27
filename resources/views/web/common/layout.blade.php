@@ -43,8 +43,6 @@
     @if (app()->getLocale() == 'ar')
         <link rel="stylesheet" href="{{ url('/public') }}/web_assets/ar_style.css">
     @endif
-
-    
 </head>
 
 <body>
@@ -68,13 +66,15 @@
                         'ru' => 'РУССКИЙ',
                         'fr' => 'FRANÇAIS',
                     ];
+
+                    $path = $_SERVER['REQUEST_URI'];
                 @endphp
                 <div class="dropdown english-drop me-3">
-                    <button class="btn btn-light dropdown-toggle desktop-view-add-convert" type="button"
+                    <button class="btn btn-light dropdown-toggle desktop-view-add-convert @if(strpos($path, 'directory_listing') == true) directory_listing_dropdown_mobile @endif" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {{ $languages[app()->getLocale()] ?? 'ENGLISH' }}
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu @if(strpos($path, 'directory_listing') == true) directory_listing_dropdown_menu_mobile @endif">
                         @foreach ($languages as $code => $label)
                             <li>
                                 <a class="dropdown-item {{ app()->getLocale() == $code ? 'active' : '' }}"
@@ -326,6 +326,7 @@
                                     onclick="openModal()">{{ __('messages.REGISTER/LOGIN') }}</button>
                             @endauth
                         </li>
+                        <li><a href="{{ route('web.directory_listing') }}">{{ __('messages.DIRECTORY') }}</a></li>
                         <!-- <li><a href="{{ route('web.howWorks') }}">{{ __('messages.HOW IT WORKS') }}</a></li>
                                 <li><a href="{{ route('web.contact') }}">{{ __('messages.CONTACT') }}</a></li>
                                 <li><a href="{{ route('web.aboutUs') }}">{{ __('messages.ABOUT US') }}</a></li> -->
@@ -342,13 +343,15 @@
                                 'ru' => 'РУССКИЙ',
                                 'fr' => 'FRANÇAIS',
                             ];
+
+                            $path = $_SERVER['REQUEST_URI']; 
                         @endphp
                         <div class="dropdown english-drop me-3">
-                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            <button class="btn btn-light dropdown-toggle @if(strpos($path, 'directory_listing') == true) directory_listing_dropdown @endif" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 {{ $languages[app()->getLocale()] ?? 'ENGLISH' }}
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu @if(strpos($path, 'directory_listing') == true) directory_listing_dropdown_menu @endif">
                                 @foreach ($languages as $code => $label)
                                     <li>
                                         <a class="dropdown-item {{ app()->getLocale() == $code ? 'active' : '' }}"
@@ -585,8 +588,33 @@
             </span> |
 
             <span><a class="dropdown-item {{ app()->getLocale() == 'ar' ? 'active' : '' }}"
-                    href="{{ route('lang.switch', 'ar') }}">العربية</a>
+                    href="{{ route('lang.switch', 'ar') }}">عربي</a>
             </span>
+
+            |
+
+            <span><a class="dropdown-item {{ app()->getLocale() == 'ur' ? 'active' : '' }}"
+                    href="{{ route('lang.switch', 'ur') }}">اردو</a>
+            </span>
+
+            |
+
+            <span><a class="dropdown-item {{ app()->getLocale() == 'fa' ? 'active' : '' }}"
+                    href="{{ route('lang.switch', 'fa') }}">دری</a>
+            </span>
+            |
+
+            <span><a class="dropdown-item {{ app()->getLocale() == 'ru' ? 'active' : '' }}"
+                    href="{{ route('lang.switch', 'ru') }}">РУССКИЙ</a>
+            </span>
+
+             |
+
+            <span><a class="dropdown-item {{ app()->getLocale() == 'fr' ? 'active' : '' }}"
+                    href="{{ route('lang.switch', 'fr') }}">FRANÇAIS</a>
+            </span>
+            
+            
         </div>
         </p>
     </div>

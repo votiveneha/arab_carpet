@@ -10,6 +10,22 @@
             margin: 200px 50px;
             text-align: center;
         }
+
+        .request_part_btn {
+            background-color: #0f4432;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            height: 45px;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 20px 30px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
     </style>
 
     {{-- <div class="breadcrumb">
@@ -42,16 +58,16 @@
                 <!-- Sidebar Filters -->
 
                 <!--     <div class="col-md-3 filter-box shop-filters-left-side custom-select-wrapper">
-                                            {{-- <form method="get" action="{{ route('productList') }}"> --}}
-                                                {{-- @csrf --}}
-                                                {{-- <h6 class="text-uppercase font-weight-bold">{{ __('messages.filter_head1') }}</h6> --}}
+                                                        {{-- <form method="get" action="{{ route('productList') }}"> --}}
+                                                            {{-- @csrf --}}
+                                                            {{-- <h6 class="text-uppercase font-weight-bold">{{ __('messages.filter_head1') }}</h6> --}}
 
-                                                <input type="hidden" name="user_latitude" id="user_latitude">
-                                                <input type="hidden" name="user_longitude" id="user_longitude">
+                                                            <input type="hidden" name="user_latitude" id="user_latitude">
+                                                            <input type="hidden" name="user_longitude" id="user_longitude">
 
-                                                <select class="form-control mb-2 custom-select select2" name="year" id="year">
-                                                    {{-- <option value="">{{ __('messages.ALL_YEAR') }}</option> --}}
-                                                    {{-- @if ($make_year)
+                                                            <select class="form-control mb-2 custom-select select2" name="year" id="year">
+                                                                {{-- <option value="">{{ __('messages.ALL_YEAR') }}</option> --}}
+                                                                {{-- @if ($make_year)
                                                         @foreach ($make_year as $make_years)
                                                         <option value="{{ $make_years->year_english }}"
                                                 {{ request('year') == $make_years->year_english ? 'selected' : '' }}>
@@ -98,8 +114,8 @@
                                                 <option value="{{ $subcategorys->id }}"
                                             {{ request('subcategory_id') == $subcategorys->id ? 'selected' : '' }}>
                                             {{ $subcategorys->subcat_name }} --}}
-                                                        </option>
-                                                                     {{-- @endforeach
+                                                                    </option>
+                                                                                 {{-- @endforeach
                                 </select>
 
                                 <!-- <select class="form-control mb-2 custom-select select2" id="country" name="country_id">
@@ -109,7 +125,7 @@
                                                 <option value="{{ $countrys->country_id }}">{{ $countrys->country_name }}</option>
                                                 @endforeach
                                                 @endif --}}
-                                                        </select> -->
+                                                                    </select> -->
 
 
                 <!--          {{-- <select class="form-control mb-2 custom-select select2"  id="city" name="city_id">
@@ -121,10 +137,10 @@
                                         @endforeach
                                     @endif
                                 </select> --}}
-                                                        {{-- <button class="btn btn-dark btn-block shop-search-btn">{{ __('messages.search') }}</button> --}}
-                                                        {{-- <!-- <button class="btn btn-outline-secondary btn-block mt-2 shop-reset-btn">RESET</button> --> --}}
-                                             {{-- <!--                   </form> --}}
-                                </div>  -->
+                                                                    {{-- <button class="btn btn-dark btn-block shop-search-btn">{{ __('messages.search') }}</button> --}}
+                                                                    {{-- <!-- <button class="btn btn-outline-secondary btn-block mt-2 shop-reset-btn">RESET</button> --> --}}
+                                                         {{-- <!--                   </form> --}}
+                                            </div>  -->
 
                 <!-- Main Content -->
                 <div class="col-md-12 shop-center-detail shop-product-list-right">
@@ -265,7 +281,7 @@
 
                                             {{-- <div class="vendor-name">{{ $product->shop_name }}</div> --}}
                                             <div class="vendor-city city-add-text">
-                                               {{ $product->city_name }}
+                                                {{ $product->city_name }}
                                             </div>
 
                                         </div>
@@ -276,8 +292,25 @@
                             @endforeach
                         @else
                             <div class="ndf_sty">
-                                <h2>No data found</h2>
+                                <h3>No products found.</h3>
+                                <form id="requestPartForm"
+                                    class="search-bar d-flex flex-wrap justify-content-center gap-2 mt-4" method="get"
+                                    action="{{ route('sellerTagList') }}">
+                                    <button type="submit" class="request_part_btn">Request Part</button>
+                                </form>
                             </div>
+
+                            <script>
+                                document.getElementById('requestPartForm').addEventListener('submit', function(e) {
+                                    e.preventDefault();
+
+                                    // Get current URL params
+                                    const queryParams = window.location.search; // e.g. ?year=2025&brand_id=1...
+
+                                    // Redirect to sellerTagList with same params
+                                    window.location.href = "{{ route('sellerTagList') }}" + queryParams;
+                                });
+                            </script>
                         @endif
 
 
@@ -358,41 +391,41 @@
     </script>
     <script>
         /*
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        if (navigator.geolocation) {
-                                            navigator.geolocation.getCurrentPosition(
-                                                function (position) {
-                                                    const lat = position.coords.latitude;
-                                                    const lng = position.coords.longitude;
-                                                    console.log("Detected location:", lat, lng);
+                                                document.addEventListener("DOMContentLoaded", function () {
+                                                    if (navigator.geolocation) {
+                                                        navigator.geolocation.getCurrentPosition(
+                                                            function (position) {
+                                                                const lat = position.coords.latitude;
+                                                                const lng = position.coords.longitude;
+                                                                console.log("Detected location:", lat, lng);
 
-                                                    document.getElementById("user_latitude").value = lat;
-                                                    document.getElementById("user_longitude").value = lng;
-                                                },
-                                                function (error) {
-                                                    console.warn("Geolocation error:", error.message);
+                                                                document.getElementById("user_latitude").value = lat;
+                                                                document.getElementById("user_longitude").value = lng;
+                                                            },
+                                                            function (error) {
+                                                                console.warn("Geolocation error:", error.message);
 
-                                                    // Show user-friendly alert
-                                                    switch (error.code) {
-                                                        case error.PERMISSION_DENIED:
-                                                            alert("Please allow location access to use this feature.");
-                                                            break;
-                                                        case error.POSITION_UNAVAILABLE:
-                                                            alert("Location information is unavailable.");
-                                                            break;
-                                                        case error.TIMEOUT:
-                                                            alert("Location request timed out.");
-                                                            break;
-                                                        default:
-                                                            alert("An unknown error occurred while getting your location.");
+                                                                // Show user-friendly alert
+                                                                switch (error.code) {
+                                                                    case error.PERMISSION_DENIED:
+                                                                        alert("Please allow location access to use this feature.");
+                                                                        break;
+                                                                    case error.POSITION_UNAVAILABLE:
+                                                                        alert("Location information is unavailable.");
+                                                                        break;
+                                                                    case error.TIMEOUT:
+                                                                        alert("Location request timed out.");
+                                                                        break;
+                                                                    default:
+                                                                        alert("An unknown error occurred while getting your location.");
+                                                                }
+                                                            }
+                                                        );
+                                                    } else {
+                                                        alert("Geolocation is not supported by this browser.");
                                                     }
-                                                }
-                                            );
-                                        } else {
-                                            alert("Geolocation is not supported by this browser.");
-                                        }
-                                    });
-                                    */
+                                                });
+                                                */
         document.addEventListener("DOMContentLoaded", function() {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.forEach(function(tooltipTriggerEl) {

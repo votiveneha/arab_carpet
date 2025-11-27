@@ -435,6 +435,10 @@ class ProductManagementController extends Controller
 
     public function addInterchangeProduct(Request $request)
     {
+        ini_set('max_input_vars', 9000);
+        ini_set('post_max_size', '500M');
+        ini_set('upload_max_filesize', '500M');
+
         $products = $request->input('products'); // array of [subcategory_id, variant_id, brand_id, model_id, generation_id]
 
         if (empty($products)) {
@@ -442,7 +446,7 @@ class ProductManagementController extends Controller
         }
 
         $grouped = collect($products)->groupBy('product_id');
-
+//echo "<pre>";print_r($products);die();
         $responseGroups = [];
 
         foreach ($grouped as $key => $groupItems) {

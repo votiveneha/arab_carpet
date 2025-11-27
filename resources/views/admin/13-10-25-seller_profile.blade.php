@@ -33,9 +33,7 @@
                         $whatsapp2 = $user_detail->whatsapp2;
                     }
 
-                    $selected_parents = $selected_brands = $selected_models = $selected_categories = $selected_subcategories = [];
-
-                    $shop_name = $parent_id = $model_id = $make_id = $part_id = $part_type_id = $shop_name_ar = $shop_logo = $shop_banner = $about_shop = $about_shop_ar = $about_shop_fr = $about_shop_ru = $about_shop_fa = $about_shop_ur = $qr_code = '';
+                    $shop_name = $shop_name_ar = $shop_logo = $shop_banner = $about_shop = $about_shop_ar = $about_shop_fr = $about_shop_ru = $about_shop_fa = $about_shop_ur = $qr_code = '';
                     if ($shop_detail) {
                         $shop_name = $shop_detail->shop_name;
                         $shop_name_ar = $shop_detail->shop_name_ar;
@@ -48,14 +46,7 @@
                         $about_shop_fa = $shop_detail->about_shop_fa ?? '';
                         $about_shop_ur = $shop_detail->about_shop_ur ?? '';
                         $qr_code = $shop_detail->qr_code;
-
-                        $selected_parents = $seller_tags->pluck('parent_id')->unique()->toArray();
-                        $selected_brands = $seller_tags->pluck('make_id')->unique()->toArray();
-                        $selected_models = $seller_tags->pluck('model_id')->unique()->toArray();
-                        $selected_categories = $seller_tags->pluck('part_id')->unique()->toArray();
-                        $selected_subcategories = $seller_tags->pluck('part_type_id')->unique()->toArray();
                     }
-
                     ?>
                     <div class="card">
                         <div class="card-body">
@@ -66,26 +57,25 @@
 
                             <!-- Nav tabs -->
                             <!--ul class="nav nav-tabs" id="myTab" role="tablist">
-                                                                                              <li class="nav-item" role="presentation">
-                                                                                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Basic Profile</button>
-                                                                                              </li>
-                                                                                              <li class="nav-item" role="presentation">
-                                                                                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" {{ $user_id == '' ? 'disabled' : '' }}>Professional Profile</button>
-                                                                                              </li>
-                                                                                              <li class="nav-item" role="presentation">
-                                                                                                <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Messages</button>
-                                                                                              </li>
-                                                                                              <li class="nav-item" role="presentation">
-                                                                                                <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
-                                                                                              </li>
-                                                                                            </ul-->
+                                      <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Basic Profile</button>
+                                      </li>
+                                      <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" {{ $user_id == '' ? 'disabled' : '' }}>Professional Profile</button>
+                                      </li>
+                                      <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Messages</button>
+                                      </li>
+                                      <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+                                      </li>
+                                    </ul-->
 
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <form id="seller_form" class="forms-sample" method="post"
-                                        action="{{ route('admin.addSeller') }}" enctype="multipart/form-data"
-                                        autocomplete="off">
+                                    <form class="forms-sample" method="post" action="{{ route('admin.addSeller') }}"
+                                        enctype="multipart/form-data" autocomplete="off">
                                         {!! csrf_field() !!}
                                         <div class="row">
 
@@ -107,7 +97,7 @@
 
                                             <div class="form-group col-md-6">
                                                 <label for="exampleInputEmail1">ABOUT BUSINESS ENGLISH</label>
-                                                <textarea class="form-control form-control-sm short_bio" name="about_shop" maxlength="300" id="short_bio1">{{ $about_shop }}</textarea>
+                                                <textarea class="form-control form-control-sm short_bio" name="about_shop" maxlength="300" id="short_bio1" >{{ $about_shop }}</textarea>
                                                 <small id="bioCounter1">300 characters remaining</small>
                                             </div>
                                             <div class="form-group col-md-6">
@@ -227,8 +217,7 @@
                             </div> --}}
                                             <div class="form-group col-md-6">
                                                 <label for="exampleInputEmail1">CITY</label>
-                                                <select class="form-select form-select-sm" id="city" name="city_id"
-                                                    required>
+                                                <select class="form-select form-select-sm" id="city" name="city_id" required>
                                                     <option value="">Select City</option>
                                                     @if ($city)
                                                         @foreach ($city as $cities)
@@ -359,106 +348,7 @@
                                             </div>
 
 
-                                            {{-- <div class="form-group col-md-6">
-                                                <label for="exampleInputEmail1">Car Type</label>
-                                                <select class="form-select form-select-sm" id="parent_id"
-                                                    name="parent_id" required>
-                                                    <option value="">Select Car Type</option>
-                                                    @if ($mparents)
-                                                        @foreach ($mparents as $parent)
-                                                            <option value="{{ $parent->id }}"
-                                                                {{ $parent_id == $parent->id ? 'selected' : '' }}>
-                                                                {{ $parent->mparents_name }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div> --}}
 
-
-
-
-                                            <div class="row">
-                                                <h5>Seller tegs</h5>
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">Origin</label>
-                                                    <select class="form-select form-select-sm select-drop"
-                                                        multiple="multiple" id="parent_id" name="parent_id[]">
-                                                        @foreach ($mparents as $mparentss)
-                                                            <option value="{{ $mparentss->id }}"
-                                                                @if (in_array($mparentss->id, $selected_parents)) selected @endif>
-                                                                {{ $mparentss->mparents_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <small id="parent_id_error" class="text-danger"></small>
-                                                </div>
-
-
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">All Brands</label>
-                                                    <select class="form-select form-select-sm select-drop"
-                                                        multiple="multiple" id="brand" name="brand_id[]">
-                                                        @if ($brands)
-                                                            @foreach ($brands as $parent)
-                                                                <option value="{{ $parent->id }}"
-                                                                    @if (in_array($parent->id, $selected_brands)) selected @endif>
-                                                                    {{ $parent->brand_name }}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <small id="brand_error" class="text-danger"></small>
-                                                </div>
-
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">All Models</label>
-                                                    <select class="form-select form-select-sm select-drop"
-                                                        multiple="multiple" id="model" name="model_id[]">
-                                                        @if ($models)
-                                                            @foreach ($models as $parent)
-                                                                <option value="{{ $parent->id }}"
-                                                                    @if (in_array($parent->id, $selected_models)) selected @endif>
-                                                                    {{ $parent->model_name }}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <small id="model_error" class="text-danger"></small>
-                                                </div>
-
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">All Part Type</label>
-                                                    <select class="form-select form-select-sm select-drop"
-                                                        multiple="multiple" id="category" name="category_id[]">
-                                                        @if ($categorys)
-                                                            @foreach ($categorys as $parent)
-                                                                <option value="{{ $parent->id }}"
-                                                                    @if (in_array($parent->id, $selected_categories)) selected @endif>
-                                                                    {{ $parent->category_name }}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <small id="category_error" class="text-danger"></small>
-                                                </div>
-
-                                                <div class="form-group col-md-6">
-                                                    <label for="exampleInputEmail1">All Part</label>
-                                                    <select class="form-select form-select-sm select-drop"
-                                                        multiple="multiple" id="subcategory" name="subcategory_id[]">
-                                                        @if ($subcategorys)
-                                                            @foreach ($subcategorys as $parent)
-                                                                <option value="{{ $parent->id }}"
-                                                                    @if (in_array($parent->id, $selected_subcategories)) selected @endif>
-                                                                    {{ $parent->subcat_name }}
-                                                                </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    <small id="subcategory_error" class="text-danger"></small>
-                                                </div>
-
-                                            </div>
 
 
                                             <div class="form-group col-md-6">
@@ -720,444 +610,4 @@
             });
         </script>
     @endif
-@endpush
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.select-drop').select2({
-                placeholder: 'Select an option',
-                allowClear: true
-            });
-        });
-    </script>
-    @if (session('success'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    title: "Success!",
-                    text: "{{ session('success') }}",
-                    icon: "success",
-                    confirmButtonText: "OK"
-                });
-            });
-        </script>
-    @endif
-
-    @if (session('error'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "{{ session('error') }}",
-                    confirmButtonText: "OK"
-                });
-            });
-        </script>
-    @endif
-    <script>
-        $(document).ready(function() {
-
-            // ===========================
-            //  AUTO LOAD ON EDIT PAGE
-            // ===========================
-
-            // --- 1. Load Brands & Models if parents pre-selected ---
-            let preselectedParents = $('#parent_id').val();
-
-            if (preselectedParents && preselectedParents.length > 0) {
-                loadBrandsModels(preselectedParents);
-            }
-
-            // --- 2. Load Subcategories if category pre-selected ---
-            let preselectedCategories = $('#category').val();
-
-            if (preselectedCategories && preselectedCategories.length > 0) {
-                loadSubcategories(preselectedCategories);
-            }
-
-
-            // ===========================
-            //  FUNCTIONS
-            // ===========================
-
-            // Parent → Brand + Model
-            function loadBrandsModels(parentIds) {
-                $.ajax({
-                    url: "{{ url('/admin/getBrandModelByParent') }}",
-                    type: "POST",
-                    data: {
-                        parent_ids: parentIds,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(result) {
-
-                        // BRAND LIST
-                        $('#brand').html('');
-                        $.each(result.brands, function(key, value) {
-                            let selectedBrands = {!! json_encode($selected_brands) !!};
-                            let isSelected = selectedBrands.includes(value.id) ? 'selected' :
-                            '';
-
-                            $('#brand').append('<option value="' + value.id + '" ' +
-                                isSelected + '>' +
-                                value.brand_name + '</option>');
-                        });
-
-                        // MODEL LIST
-                        $('#model').html('');
-                        $.each(result.models, function(key, value) {
-                            let selectedModels = {!! json_encode($selected_models) !!};
-                            let isSelected = selectedModels.includes(value.id) ? 'selected' :
-                            '';
-
-                            $('#model').append('<option value="' + value.id + '" ' +
-                                isSelected + '>' +
-                                value.model_name + '</option>');
-                        });
-                    }
-                });
-            }
-
-
-            // Category → Subcategory
-            function loadSubcategories(catIds) {
-                $.ajax({
-                    url: "{{ url('/admin/getSubcategoryMultiple') }}",
-                    type: "POST",
-                    data: {
-                        category_id: catIds,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(result) {
-
-                        $('#subcategory').html('');
-
-                        $.each(result.subcat, function(key, value) {
-                            let selectedSubcat = {!! json_encode($selected_subcategories) !!};
-                            let isSelected = selectedSubcat.includes(value.id) ? 'selected' :
-                            '';
-
-                            $('#subcategory').append('<option value="' + value.id + '" ' +
-                                isSelected + '>' +
-                                value.subcat_name + '</option>');
-                        });
-                    }
-                });
-            }
-
-
-            // ===========================
-            //  CHANGE EVENTS
-            // ===========================
-
-            // Parent → Brand/Model
-            $('#parent_id').change(function() {
-                loadBrandsModels($(this).val());
-            });
-
-            // Category → Subcategory
-            $('#category').change(function() {
-                loadSubcategories($(this).val());
-            });
-
-        });
-
-
-
-        $(document).ready(function() {
-
-            // MULTIPLE Parent -> Brands + Models
-            $('#parent_id').change(function() {
-
-                let parentIds = $(this).val(); // ARRAY of selected parent IDs
-
-                $.ajax({
-                    url: "{{ url('/admin/getBrandModelByParent') }}",
-                    type: "POST",
-                    data: {
-                        parent_ids: parentIds,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(result) {
-
-                        // ----- BRAND LIST -----
-                        $('#brand').html('');
-                        $.each(result.brands, function(key, value) {
-                            $('#brand').append('<option value="' + value.id + '">' +
-                                value.brand_name + '</option>');
-                        });
-
-                        // ----- MODEL LIST -----
-                        $('#model').html('');
-                        $.each(result.models, function(key, value) {
-                            $('#model').append('<option value="' + value.id + '">' +
-                                value.model_name + '</option>');
-                        });
-
-                    }
-                });
-            });
-
-
-            // MULTIPLE Brand -> Models
-            $('#brand').change(function() {
-
-                let brandIds = $(this).val(); // ARRAY
-
-                $.ajax({
-                    url: "{{ url('/admin/getModelMultiple') }}",
-                    type: "POST",
-                    data: {
-                        brand_id: brandIds,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(result) {
-                        $('#model').html('');
-                        $.each(result.city, function(key, value) {
-                            $('#model').append('<option value="' + value.id + '">' +
-                                value.model_name + '</option>');
-                        });
-                    }
-                });
-
-            });
-
-
-            // MULTIPLE Category -> Subcategory
-            $('#category').change(function() {
-
-                let cid = $(this).val(); // ARRAY
-
-                $.ajax({
-                    url: "{{ url('/admin/getSubcategoryMultiple') }}",
-                    type: "POST",
-                    data: {
-                        category_id: cid,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(result) {
-                        $('#subcategory').html('');
-                        $.each(result.subcat, function(key, value) {
-                            $('#subcategory').append('<option value="' + value.id +
-                                '">' + value.subcat_name + '</option>');
-                        });
-                    }
-                });
-            });
-
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $(document).on('change', '.product_status', function() {
-
-                var status = $(this).val();
-                var user_id = $(this).attr('user');
-                $.ajax({
-                    url: "{{ url('/admin/updateProductStatus') }}",
-                    type: "POST",
-                    datatype: "json",
-                    data: {
-                        status: status,
-                        product_id: user_id,
-                        '_token': '{{ csrf_token() }}'
-                    },
-                    success: function(result) {
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Status updated!",
-                            icon: "success"
-                        });
-                    },
-                    errror: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-
-            $(document).on('click', '.del_product', function() {
-                const button = $(this);
-
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: "btn btn-success",
-                        cancelButton: "btn btn-danger"
-                    },
-                    buttonsStyling: false
-                });
-                swalWithBootstrapButtons.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel!",
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        var user_id = $(this).attr('user_id');
-                        $.ajax({
-                            url: "{{ url('/admin/deleteProduct') }}",
-                            type: "POST",
-                            datatype: "json",
-                            data: {
-                                product_id: user_id,
-                                '_token': '{{ csrf_token() }}'
-                            },
-                            success: function(result) {
-
-                                swalWithBootstrapButtons.fire({
-                                    title: "Deleted!",
-                                    text: "Product has been deleted.",
-                                    icon: "success"
-                                });
-                                button.closest('tr').remove();
-                            },
-                            errror: function(xhr) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire({
-                            title: "Cancelled",
-                            text: "Your product is safe :)",
-                            icon: "error"
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
-        document.getElementById('selectAll').addEventListener('click', function(e) {
-            let checkboxes = document.querySelectorAll('.selectBox');
-            checkboxes.forEach(cb => cb.checked = e.target.checked);
-        });
-
-        document.getElementById('bulkDeleteBtn').addEventListener('click', function(e) {
-            e.preventDefault(); // Stop normal form submit
-
-            const form = document.getElementById('bulkDeleteForm');
-            const checkboxes = document.querySelectorAll('.selectBox:checked');
-
-            if (checkboxes.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'No selection',
-                    text: 'Please select at least one user to delete.',
-                });
-                return;
-            }
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Selected user will be deleted.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete selected'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit(); // Submit the form only if confirmed
-                }
-            });
-        });
-
-
-        let table = $('#example').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ url('/admin/getAdminProduct') }}",
-
-                type: 'POST',
-                data: function(d) {
-                    let brand_id = $('#brand').val();
-                    if (!brand_id) {
-                        //return false; // prevent request if brand not selected
-                    }
-                    return $.extend({}, d, {
-                        parent_id: $('#parent').val(),
-                        brand_id: $('#brand').val(),
-                        model_id: $('#model').val(),
-                        category_id: $('#category').val(),
-                        subcategory_id: $('#subcategory').val(),
-                        _token: '{{ csrf_token() }}'
-                    });
-                }
-            },
-            lengthMenu: [
-                [10, 25, 50, 100, 500, -1],
-                [10, 25, 50, 100, 500, "All"]
-            ],
-            pageLength: 10,
-            columns: [{
-                    data: 'checkbox',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'brand',
-                    name: 'brand'
-                },
-                {
-                    data: 'model',
-                    name: 'model'
-                },
-                {
-                    data: 'category',
-                    name: 'category'
-                },
-                {
-                    data: 'subcategory',
-                    name: 'subcategory'
-                },
-                {
-                    data: 'generation',
-                    name: 'generation'
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
-            //deferLoading: 0
-        });
-
-        // Only trigger reload when brand is selected
-        $('#brand').on('change', function() {
-            if ($(this).val()) {
-                table.ajax.reload();
-            }
-            // if ($(this).val()!='') {
-            //     $('#category').prop('disabled', false);
-            // }
-        });
-        // Reload table when filters change
-        $('#filters select').on('change', function() {
-            table.ajax.reload();
-        });
-    </script>
 @endpush

@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Business;
-use App\Models\SellerTag;
-use App\Models\ShopDetail;
-use App\Models\User;
-use App\Models\UserLanguage;
-use App\Models\UserService;
+use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use App\Models\ShopDetail;
+use App\Models\UserService;
+use App\Models\UserLanguage;
+use Yajra\DataTables\Facades\DataTables;
+
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\File;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 
-
-use Illuminate\Support\Str;
 use Spatie\Browsershot\Browsershot;
-use Yajra\DataTables\Facades\DataTables;
+use App\Models\Business;
 
 
 class UserManagementController extends Controller
@@ -205,7 +204,7 @@ class UserManagementController extends Controller
             ->leftjoin('shop_detail', 'shop_detail.user_id', '=', 'users.id')
             ->where('user_type', 2)
             ->where('is_deleted', 0)
-            ->select('users.*', 'master_country.country_name', 'shop_detail.shop_name', 'master_city.city_name')
+            ->select('users.*', 'master_country.country_name','shop_detail.shop_name','master_city.city_name')
             //->orderBy('id', 'DESC')
             ->paginate(20);
 
@@ -234,7 +233,7 @@ class UserManagementController extends Controller
                 return '<input type="checkbox" class="selectBox" name="ids[]" value="' . $row->id . '">';
             })
             ->addColumn('user_name', function ($row) {
-                return $row->user_name;
+                return $row->user_name ;
             })
             ->addColumn('business_name', function ($row) {
                 return $row->shop_name ?? '-';
@@ -278,7 +277,7 @@ class UserManagementController extends Controller
         $country = DB::table('master_country')->where('country_status', 1)->get();
         $services = DB::table('services')->get();
 
-        $user_detail = $state = $city = $shop_detail = $seller_tags = "";
+        $user_detail = $state = $city = $shop_detail = "";
         $seller_service_ids = array();
         if ($id != null) {
             $user_detail = DB::table('users')->where('id', $id)->first();
@@ -290,28 +289,11 @@ class UserManagementController extends Controller
                 ->toArray();
             if ($user_detail->user_type == 2) {
                 $shop_detail = DB::table('shop_detail')->where('user_id', $user_detail->id)->first();
-                $seller_tags = SellerTag::where('seller_id', $user_detail->id)->get();
             }
         }
 
-        $mparents = DB::table('mparents')->get();
-        $brands = DB::table('brand')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $models = DB::table('make_model')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->when($request->brand_id, fn($q) => $q->where('brand_id', $request->brand_id))
-            ->get();
-
-        $categorys = DB::table('category')->where('is_active', 1)->where('is_deleted', 0)->get();
-        $subcategorys = DB::table('subcategory')
-            ->where('is_active', 1)
-            ->where('is_deleted', 0)
-            ->when($request->category_id, fn($q) => $q->where('category_id', $request->category_id))
-            ->get();
-
-        return view('admin.seller_profile', compact('country', 'mparents', 'brands', 'models', 'categorys', 'subcategorys', 'user_detail', 'seller_tags', 'state', 'city', 'shop_detail', 'services', 'seller_service_ids'));
+        return view('admin.seller_profile', compact('country', 'user_detail', 'state', 'city', 'shop_detail', 'services', 'seller_service_ids'));
     }
-
     public function addSeller(Request $request, $id = null)
     {
 
@@ -356,7 +338,6 @@ class UserManagementController extends Controller
                 $user->password         = Hash::make($request->password);
             }
 
-
             $user->gender           = $request->gender;
             $user->country_id       = $request->country_id;
             // $user->state_id         = $request->state_id;
@@ -386,67 +367,18 @@ class UserManagementController extends Controller
                 $shop = new ShopDetail();
                 $isNew = true;
             }
-            $shop->user_id      = $user_id;
-            $shop->shop_name    = $request->shop_name;
+            $shop->user_id = $user_id;
+            $shop->shop_name = $request->shop_name;
             $shop->shop_name_ar = $request->shop_name_ar;
 
 
-            // Parent ID added
-            //$shop->parent_id     = $request->parent_id;
 
-            $shop->about_shop    = $request->about_shop;
+            $shop->about_shop = $request->about_shop;
             $shop->about_shop_ar = $request->about_shop_ar;
             $shop->about_shop_fr = $request->about_shop_fr;
             $shop->about_shop_ru = $request->about_shop_ru;
             $shop->about_shop_fa = $request->about_shop_fa;
             $shop->about_shop_ur = $request->about_shop_ur;
-            $shop->save();
-
-            //  Seller tegs start
-
-            // Get selected multi tags
-            $parentIds      = $request->parent_id ?? [null];
-            $brandIds       = $request->brand_id ?? [null];
-            $modelIds       = $request->model_id ?? [null];
-            $categoryIds    = $request->category_id ?? [null];
-            $subcategoryIds = $request->subcategory_id ?? [null];
-
-            // If the array exists but empty, also set null
-            $parentIds      = !empty($parentIds) ? $parentIds : [null];
-            $brandIds       = !empty($brandIds) ? $brandIds : [null];
-            $modelIds       = !empty($modelIds) ? $modelIds : [null];
-            $categoryIds    = !empty($categoryIds) ? $categoryIds : [null];
-            $subcategoryIds = !empty($subcategoryIds) ? $subcategoryIds : [null];
-
-
-            // First delete all old tags for this seller (update)
-            SellerTag::where('seller_id', $user_id)->delete();
-
-            // Now insert new tags (insert)
-
-            foreach ($parentIds as $parentId) {
-                foreach ($brandIds as $brandId) {
-                    foreach ($modelIds as $modelId) {
-                        foreach ($categoryIds as $categoryId) {
-                            foreach ($subcategoryIds as $subcategoryId) {
-
-                                SellerTag::create([
-                                    'seller_id'     => $user_id,
-                                    'parent_id'     => $parentId,
-                                    'make_id'       => $brandId,
-                                    'model_id'      => $modelId,
-                                    'part_id'       => $categoryId,
-                                    'part_type_id'  => $subcategoryId,
-                                    'shop_id'       => $shop->id,
-                                ]);
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // Seller tags end
 
 
             if ($request->hasFile('shop_logo')) {
@@ -693,33 +625,6 @@ class UserManagementController extends Controller
             ->get();
         return view('admin.seller_request_list', compact('sellreques'));
     }
-
-    public function buyerRequestList()
-    {
-        $buyerRequest = DB::table('buyer_request')
-            ->leftJoin('users', 'buyer_request.id', '=', 'users.id')
-            ->leftJoin('mparents', 'buyer_request.parent_id', '=', 'mparents.id')
-            ->leftJoin('brand', 'buyer_request.brand_id', '=', 'brand.id')
-            ->leftJoin('make_model', 'buyer_request.model_id', '=', 'make_model.id')
-            ->leftJoin('category', 'buyer_request.category_id', '=', 'category.id')
-            ->leftJoin('subcategory', 'buyer_request.subcategory_id', '=', 'subcategory.id')
-            ->select(
-                'buyer_request.*',
-                'users.first_name as first_name',
-                'users.last_name as last_name',
-                'mparents.mparents_name as parent_cate_name',
-                'brand.brand_name as brand_name',
-                'make_model.model_name as model_name',
-                'category.category_name as category_name',
-                'subcategory.subcat_name as subcategory_name'
-            )
-            ->orderBy('buyer_request.created_at', 'desc')
-            ->get();
-        //dd($buyerRequest);
-        return view('admin.buyer_request_list', compact('buyerRequest'));
-    }
-
-
     public function updateRequestStatus(Request $request)
     {
         //This function is for update the request status

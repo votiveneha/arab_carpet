@@ -39,6 +39,7 @@
           <!-- <li class="nav-item"> <a class="nav-link" href="{{route('admin.userList')}}">Customer List</a></li> -->
           <li class="nav-item"> <a class="nav-link" href="{{route('admin.sellerList')}}">Seller List</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{route('admin.allRequest')}}">Request List</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{route('admin.buyerRequest')}}">Buyers Request List</a></li>
         </ul>
       </div>
     </li>
@@ -93,7 +94,7 @@
         </ul>
       </div>
     </li>
-    
+
     <!--li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
         <i class="icon-bar-graph menu-icon"></i>

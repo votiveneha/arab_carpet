@@ -36,7 +36,7 @@
                         $longitude = $user_detail->longitude;
                     }
 
-                    $shop_name = $shop_logo = $shop_banner = $about_shop = $qr_code = $shop_name_ar = $parent_id = '';
+                    $shop_name = $shop_logo = $shop_banner = $about_shop = $qr_code = $shop_name_ar = '';
                     if ($shop_detail) {
                         $shop_name = $shop_detail->shop_name ?? '';
                         $shop_name_ar = $shop_detail->shop_name_ar ?? '';
@@ -49,7 +49,6 @@
                         $about_shop_fa = $shop_detail->about_shop_fa ?? '';
                         $about_shop_ur = $shop_detail->about_shop_ur ?? '';
                         $qr_code = $shop_detail->qr_code;
-                        $parent_id = $shop_detail->parent_id ?? '';
                     }
                     ?>
 
@@ -294,18 +293,6 @@
                                                 alt="shop Preview"
                                                 style="max-width: 150px; border: 1px solid #ddd; padding: 5px;">
                                         </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="exampleInputEmail1">Car Type</label>
-                                        <select class="form-select form-select-sm" id="parent_id" name="parent_id" required>
-                                            <option value="">Select Car Type</option>
-                                            @if ($mparents)
-                                                @foreach ($mparents as $parent)
-                                                    <option value="{{ $parent->id }}" {{ $parent_id == $parent->id ? 'selected' : '' }}>
-                                                        {{ $parent->mparents_name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
                                     </div>
 
 </div>

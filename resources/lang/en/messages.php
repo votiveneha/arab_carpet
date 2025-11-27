@@ -119,6 +119,15 @@ END OF NOTICE. NO FURTHER INFORMATION IS APPLICABLE.
     'latitude' => 'LATITUDE',
     'longitude' => 'LONGITUDE',
     'THIS_FITS' => 'THIS FITS:',
-    'ALSO_THIS_FITS' => 'ALSO THIS FITS:'
+    'ALSO_THIS_FITS' => 'ALSO THIS FITS:',
+    'shop_listing' => 'Shop Listing',
+    'search_shop_name' => 'Search shop name',
+    'select_countries' => 'Select Country',
+    'select_cities' => 'Select City',
+    'clear' => 'Clear',
+    'you_are_here' => 'You are here',
+    'results' => 'results',
+    'address' => 'Address',
+    'all_car_type' => 'All Car Type',
 ];
 ?>

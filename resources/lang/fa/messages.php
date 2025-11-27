@@ -118,4 +118,13 @@ return [
     'longitude' => 'طول جغرافیایی',
     'THIS_FITS' => 'این مناسب است:',
     'ALSO_THIS_FITS' => 'این نیز مناسب است:',
+    'shop_listing' => 'لیست فروشگاه ها',
+    'search_shop_name' => 'نام دوکان را جستجو کنید',
+    'select_countries' => 'کشور را انتخاب کنید',
+    'select_cities' => 'شهر را انتخاب کنید',
+    'clear' => 'شفاف',
+    'you_are_here' => 'شما اینجا هستید',
+    'results' => 'نتایج',
+    'address' => 'آدرس',
+    'all_car_type' => 'همه نوع ماشین',
 ];

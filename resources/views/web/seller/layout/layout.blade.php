@@ -50,10 +50,10 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-                <a class="navbar-brand brand-logo me-5" href="{{ route('admin.dashboard') }}"><img
+                <a class="navbar-brand brand-logo me-5" href="{{ route('seller.dashboard') }}"><img
                         src="{{ url('/public') }}/admin_assets/images/head_logo.png" class="me-2"
                         alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="{{ route('admin.dashboard') }}"><img
+                <a class="navbar-brand brand-logo-mini" href="{{ route('seller.dashboard') }}"><img
                         src="{{ url('/public') }}/admin_assets/images/fav.png" alt="logo" /></a>
 
             </div>

@@ -138,8 +138,6 @@ class SellerDashboardController extends Controller
             $shop_detail = DB::table('shop_detail')->where('user_id', $user_detail->id)->first();
         }
 
-        $mparents = DB::table('mparents')->get();
-
         if ($request->isMethod('post')) {
             // $useremail  = DB::table('users')->where('email', '=' , $request->email)->where('id', '!=' , Auth::id())->where('is_deleted', '=' , 0)->first();
 
@@ -203,7 +201,6 @@ class SellerDashboardController extends Controller
             $shop->about_shop_ru = $request->about_shop_ru;
             $shop->about_shop_fa = $request->about_shop_fa;
             $shop->about_shop_ur = $request->about_shop_ur;
-            $shop->parent_id = $request->parent_id;
 
             if ($request->hasFile('shop_logo')) {
                 $image = $request->file('shop_logo');
@@ -240,7 +237,7 @@ class SellerDashboardController extends Controller
             return redirect()->route("seller.myProfile")->with("success", $message);
         }
 
-        return view('web.seller.my_profile', compact('country', 'user_detail', 'mparents', 'state', 'city', 'shop_detail', 'services', 'seller_service_ids'));
+        return view('web.seller.my_profile', compact('country', 'user_detail', 'state', 'city', 'shop_detail', 'services', 'seller_service_ids'));
     }
 
 

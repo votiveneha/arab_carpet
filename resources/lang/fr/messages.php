@@ -119,4 +119,13 @@ L’UTILISATION DE CE SITE IMPLIQUE L’ACCEPTATION DES <a href=":url" target="_
     'longitude' => 'LONGITUDE',
     'THIS_FITS' => 'Ceci correspond :',
     'ALSO_THIS_FITS' => 'Cela correspond aussi :',
+    'shop_listing' => 'Liste des boutiques',
+    'search_shop_name' => 'Rechercher le nom de la boutique',
+    'select_countries' => 'Sélectionnez des pays',
+    'select_cities' => 'Sélectionnez les villes',
+    'clear' => 'Claire',
+    'you_are_here' => 'Vous êtes ici',
+    'results' => 'résultats',
+    'address' => 'adresse',
+    'all_car_type' => 'Tous les types de voitures',
 ];

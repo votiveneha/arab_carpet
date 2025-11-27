@@ -117,4 +117,13 @@ ARABCARPART НЕ НЕСЕТ ОТВЕТСТВЕННОСТИ ЗА ТОЧНОСТЬ
     'longitude' => 'ДОЛГОТА',
     'THIS_FITS' => 'ПОДХОДИТ:',
     'ALSO_THIS_FITS' => 'ТАКЖЕ ПОДХОДИТ:',
+    'shop_listing' => 'Shop Listing',
+    'search_shop_name' => 'Список магазинов',
+    'select_countries' => 'Выберите страну',
+    'select_cities' => 'Выберите город',
+    'clear' => 'Прозрачный',
+    'you_are_here' => 'Вы здесь',
+    'results' => 'результаты',
+    'address' => 'адрес',
+    'all_car_type' => 'Все типы автомобилей',
 ];

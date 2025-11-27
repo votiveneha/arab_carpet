@@ -25,9 +25,9 @@ class AdminController extends Controller
 
                 return redirect()->route("admin.dashboard");
             } else {
-                echo "Credentails do not matches our record.";
-                Session::flash('message', "Credentails do not matches our record");
-                return redirect()->back()->withErros(["email" => "Credentails do not matches our record."]);
+                return redirect()->back()
+                    ->withErrors(['login_error' => 'Invalid email or password.'])
+                    ->withInput();
             }
         }
         if (Auth::guard("admin")->user()) {
@@ -76,6 +76,97 @@ class AdminController extends Controller
         return response()->json($data);
     }
 
+
+
+    // public function getBrand(Request $request)
+    // {
+    //     $locale = App::getLocale();
+    //     $referrer = $request->headers->get('referer');
+
+    //     if ($referrer && str_contains($referrer, '/admin/')) {
+    //         $locale = 'en';
+    //     }
+    //     if ($request->mparents_id) {
+    //         $subcat = DB::table('mparent_brand')
+    //             ->leftJoin('brand', 'brand.id', '=', 'mparent_brand.brand_id')
+    //             ->where('mparents_id', '=', $request->mparents_id)
+    //             ->where('brand.is_active', '=', 1)
+    //             ->where('brand.is_deleted', '=', 0)
+    //             ->select('brand.*')
+    //             ->get();
+    //     } else {
+    //         $subcat = DB::table('brand')->where('is_active', 1)->where('is_deleted', 0)->get();
+    //     }
+
+    //     $models = $subcat->map(function ($item) use ($locale) {
+    //         $item->brand_name = $locale == 'ar' ? $item->ar_brand_name : $item->brand_name;
+    //         return $item;
+    //     });
+
+    //     return response()->json([
+    //         'subcat' => $models
+    //     ]);
+
+    //     // $data = compact('subcat');
+    //     // return response()->json($data);
+    // }
+
+    public function getBrand(Request $request)
+    {
+        $locale = App::getLocale();
+        $referrer = $request->headers->get('referer');
+
+        if ($referrer && str_contains($referrer, '/admin/')) {
+            $locale = 'en';
+        }
+
+        // --- 1. Fetch brands ---
+        if ($request->mparents_id) {
+            $brands = DB::table('mparent_brand')
+                ->leftJoin('brand', 'brand.id', '=', 'mparent_brand.brand_id')
+                ->where('mparents_id', $request->mparents_id)
+                ->where('brand.is_active', 1)
+                ->where('brand.is_deleted', 0)
+                ->select('brand.*')
+                ->get();
+        } else {
+            $brands = DB::table('brand')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+        }
+
+        // Localize brand name
+        $brands = $brands->map(function ($item) use ($locale) {
+            $item->brand_name = $locale == 'ar' ? $item->ar_brand_name : $item->brand_name;
+            return $item;
+        });
+
+        // --- 2. Fetch models related to parent ---
+        $brandIds = $brands->pluck('id');
+
+        $models = DB::table('make_model')
+            ->whereIn('brand_id', $brandIds)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        // Localize model name
+        $models = $models->map(function ($item) use ($locale) {
+            $localized = "{$locale}_model_name";
+            if (!empty($item->$localized)) {
+                $item->model_name = $item->$localized;
+            }
+            return $item;
+        });
+
+        return response()->json([
+            'brands' => $brands,
+            'models' => $models,
+        ]);
+    }
+
+
     public function getModel(Request $request)
     {
         $locale = App::getLocale();
@@ -106,7 +197,7 @@ class AdminController extends Controller
         $models = $city->map(function ($item) use ($locale) {
             // Build the localized column name dynamically
             $localizedColumn = "{$locale}_model_name";
-            
+
             // If that localized column exists on the object and is not empty, use it
             if (isset($item->$localizedColumn) && !empty($item->$localizedColumn)) {
                 $item->model_name = $item->$localizedColumn;
@@ -118,23 +209,13 @@ class AdminController extends Controller
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
         // $data = compact('city');
         // return response()->json($data);
         return response()->json([
             'city' => $models
         ]);
     }
+
     public function getSubcategory(Request $request)
     {
         $locale = App::getLocale();
@@ -165,13 +246,10 @@ class AdminController extends Controller
         // $data = compact('subcat');
         // return response()->json($data);
     }
-    public function getgeneration(Request $request)
-    {
-        $subcat = DB::table('generation_year')->where('model_id', '=', $request->model_id)->where('is_active', '=', 1)->where('is_deleted', '=', 0)->orderby('start_year', 'DESC')->get();
-        $data = compact('subcat');
-        return response()->json($data);
-    }
-    public function getBrand(Request $request)
+
+
+
+    public function getBrandMultiple(Request $request)
     {
         $locale = App::getLocale();
         $referrer = $request->headers->get('referer');
@@ -179,16 +257,24 @@ class AdminController extends Controller
         if ($referrer && str_contains($referrer, '/admin/')) {
             $locale = 'en';
         }
-        if ($request->mparents_id) {
+
+        // MULTIPLE IDs
+        $parentIds = $request->mparents_id;
+
+        if (!empty($parentIds)) {
             $subcat = DB::table('mparent_brand')
                 ->leftJoin('brand', 'brand.id', '=', 'mparent_brand.brand_id')
-                ->where('mparents_id', '=', $request->mparents_id)
-                ->where('brand.is_active', '=', 1)
-                ->where('brand.is_deleted', '=', 0)
+                ->whereIn('mparents_id', $parentIds) // FIXED
+                ->where('brand.is_active', 1)
+                ->where('brand.is_deleted', 0)
                 ->select('brand.*')
+                ->distinct()
                 ->get();
         } else {
-            $subcat = DB::table('brand')->where('is_active', 1)->where('is_deleted', 0)->get();
+            $subcat = DB::table('brand')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
         }
 
         $models = $subcat->map(function ($item) use ($locale) {
@@ -196,13 +282,139 @@ class AdminController extends Controller
             return $item;
         });
 
-        return response()->json([
-            'subcat' => $models
-        ]);
-
-        // $data = compact('subcat');
-        // return response()->json($data);
+        return response()->json(['subcat' => $models]);
     }
+
+
+    public function getModelMultiple(Request $request)
+    {
+        $locale = App::getLocale();
+        $referrer = $request->headers->get('referer');
+
+        if ($referrer && str_contains($referrer, '/admin/')) {
+            $locale = 'en';
+        }
+
+        $brandIds = $request->brand_id;
+
+        if (!empty($brandIds)) {
+            $city = DB::table('make_model')
+                ->whereIn('brand_id', $brandIds) // FIXED
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+        } else {
+            $city = DB::table('make_model')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+        }
+
+        $models = $city->map(function ($item) use ($locale) {
+            $localizedColumn = "{$locale}_model_name";
+            if (isset($item->$localizedColumn) && !empty($item->$localizedColumn)) {
+                $item->model_name = $item->$localizedColumn;
+            }
+            return $item;
+        });
+
+        return response()->json(['city' => $models]);
+    }
+
+
+    public function getBrandModelByParent(Request $request)
+    {
+        $parentIds = (array) $request->parent_ids;
+
+        // If NO parent selected → return ALL brand + ALL model
+        if (empty($parentIds)) {
+
+            $brands = DB::table('brand')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+
+            $models = DB::table('make_model')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+
+            return response()->json([
+                'brands' => $brands,
+                'models' => $models
+            ]);
+        }
+
+        // If parent selected → get linked brands
+        $brandIds = DB::table('mparent_brand')
+            ->whereIn('mparents_id', $parentIds)
+            ->pluck('brand_id');
+
+        // Brand list
+        $brands = DB::table('brand')
+            ->whereIn('id', $brandIds)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        // Model list based on selected parent → brand
+        $models = DB::table('make_model')
+            ->whereIn('brand_id', $brandIds)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->get();
+
+        return response()->json([
+            'brands' => $brands,
+            'models' => $models
+        ]);
+    }
+
+
+
+
+    public function getSubcategoryMultiple(Request $request)
+    {
+        $locale = App::getLocale();
+        $referrer = $request->headers->get('referer');
+
+        if ($referrer && str_contains($referrer, '/admin/')) {
+            $locale = 'en';
+        }
+
+        $catIds = $request->category_id;
+
+        if (!empty($catIds)) {
+            $subcat = DB::table('subcategory')
+                ->whereIn('category_id', $catIds) // FIXED
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+        } else {
+            $subcat = DB::table('subcategory')
+                ->where('is_active', 1)
+                ->where('is_deleted', 0)
+                ->get();
+        }
+
+        $models = $subcat->map(function ($item) use ($locale) {
+            $item->subcat_name = $item->{$locale . '_subcat_name'} ?? $item->subcat_name;
+            return $item;
+        });
+
+        return response()->json(['subcat' => $models]);
+    }
+
+
+
+
+    public function getgeneration(Request $request)
+    {
+        $subcat = DB::table('generation_year')->where('model_id', '=', $request->model_id)->where('is_active', '=', 1)->where('is_deleted', '=', 0)->orderby('start_year', 'DESC')->get();
+        $data = compact('subcat');
+        return response()->json($data);
+    }
+
 
     public function getPartType(Request $request)
     {
